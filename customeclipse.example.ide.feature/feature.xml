@@ -19,7 +19,9 @@
 
    <requires>
       <import feature="customeclipse.example.feature" version="1.0.0.qualifier" match="greaterOrEqual"/>
-      <import feature="org.eclipse.sdk" version="4.4.0.v20140925-0400" match="greaterOrEqual"/>
+      <import feature="org.eclipse.jdt" version="3.10.0.v20140925-0400" match="greaterOrEqual"/>
+      <import feature="org.eclipse.platform" version="4.4.0.v20140925-0400" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.sdk"/>
    </requires>
 
 </feature>
