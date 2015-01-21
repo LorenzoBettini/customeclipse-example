@@ -44,6 +44,7 @@
 
    <features>
       <feature id="customeclipse.example.ide.feature"/>
+      <feature id="customeclipse.example.feature" installMode="root"/>
    </features>
 
    <configurations>
