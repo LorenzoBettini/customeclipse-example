@@ -11,6 +11,7 @@
 		<module>../customeclipse.example.plugin</module>
 		<module>../customeclipse.example.feature</module>
 		<module>../customeclipse.example.site</module>
+		<module>../customeclipse.example.ide.feature</module>
 	</modules>
 
 	<properties>
@@ -78,6 +79,13 @@
 						<goals>
 							<goal>source-feature</goal>
 						</goals>
+						<configuration>
+							<excludes>
+								<!-- These are bundles and feature that do not have a corresponding 
+									source version; NOT the ones that we do not want source versions -->
+								<feature id="org.eclipse.sdk" />
+							</excludes>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
