@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature id="customeclipse.example.feature" version="0.0.0">
+      <category name="customeclipse.example.category"/>
+   </feature>
+   <feature id="customeclipse.example.feature.source" version="0.0.0">
+      <category name="customeclipse.example.source.category"/>
+   </feature>
+   <category-def name="customeclipse.example.category" label="Example Repository">
+      <description>
+         Example Repository
+      </description>
+   </category-def>
+   <category-def name="customeclipse.example.source.category" label="Example Repository (Sources)">
+      <description>
+         Example Repository (Sources)
+      </description>
+   </category-def>
+</site>
