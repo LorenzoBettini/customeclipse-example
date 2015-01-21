@@ -1,0 +1,7 @@
+*.class
+bin/
+*~
+logs.zip
+*.orig
+
+target
