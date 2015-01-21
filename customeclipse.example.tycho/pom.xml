@@ -7,6 +7,7 @@
 	<packaging>pom</packaging>
 
 	<modules>
+		<module>../customeclipse.example.targetplatform</module>
 		<module>../customeclipse.example.plugin</module>
 		<module>../customeclipse.example.feature</module>
 		<module>../customeclipse.example.site</module>
@@ -20,14 +21,27 @@
 		<memoryArgs>-Xms256M -Xmx1024M -XX:PermSize=256M -XX:MaxPermSize=256M -XX:+HeapDumpOnOutOfMemoryError</memoryArgs>
 		<platform-version>[3.9,4.0)</platform-version>
 	</properties>
-
-	<repositories>
-		<repository>
+	
+	<profiles>
+		<profile>
 			<id>luna</id>
-			<layout>p2</layout>
-			<url>http://download.eclipse.org/releases/luna</url>
-		</repository>
-	</repositories>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+
+			<properties>
+				<target-file-name>luna</target-file-name>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>local</id>
+			<properties>
+				<target-file-name>local</target-file-name>
+			</properties>
+		</profile>
+
+	</profiles>
 
 	<build>
 
@@ -81,6 +95,23 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+			
+			<plugin>
+				<!-- in standard build, use only the current environment -->
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>target-platform-configuration</artifactId>
+				<version>${tycho-version}</version>
+				<configuration>
+					<target>
+						<artifact>
+							<groupId>customeclipse.example</groupId>
+							<artifactId>customeclipse.example.targetplatform</artifactId>
+							<version>${project.version}</version>
+							<classifier>${target-file-name}</classifier>
+						</artifact>
+					</target>
+				</configuration>
 			</plugin>
 
 			<plugin>
