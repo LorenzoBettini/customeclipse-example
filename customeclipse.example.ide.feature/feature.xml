@@ -17,12 +17,9 @@
       [Enter License Description here.]
    </license>
 
-   <includes
-         id="customeclipse.example.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.sdk"
-         version="0.0.0"/>
+   <requires>
+      <import feature="customeclipse.example.feature" version="1.0.0.qualifier" match="greaterOrEqual"/>
+      <import feature="org.eclipse.sdk" version="4.4.0.v20140925-0400" match="greaterOrEqual"/>
+   </requires>
 
 </feature>
