@@ -19,10 +19,6 @@
 				<activeByDefault>false</activeByDefault>
 			</activation>
 
-			<properties>
-				<p2.repository.dest>${project.basedir}/../target/repository</p2.repository.dest>
-			</properties>
-
 			<build>
 				<plugins>
 
