@@ -21,6 +21,19 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<memoryArgs>-Xms256M -Xmx1024M -XX:PermSize=256M -XX:MaxPermSize=256M -XX:+HeapDumpOnOutOfMemoryError</memoryArgs>
 		<platform-version>[3.9,4.0)</platform-version>
+		
+		<!-- properties for deploying the composite update site on Sourceforge -->
+
+		<!-- the subdirectory for the composite update site -->
+		<updates.dir>customeclipse</updates.dir>
+		<site.label>Custom Eclipse Example Site</site.label>
+	
+		<!-- local source directory for rsync (read from this directory) -->
+		<rsync.remote.dir>lbettini,eclipseexamples@frs.sourceforge.net:/home/frs/project/eclipseexamples/customeclipse/updates/</rsync.remote.dir>
+		<!-- remote rsync host -->
+		<rsync.local.dir>${user.home}/p2.repositories/${updates.dir}/</rsync.local.dir>
+		<!-- pass "-n" to perform a trial run with no changes made -->
+		<dryrun></dryrun>
 	</properties>
 	
 	<profiles>
