@@ -22,7 +22,7 @@
 		<memoryArgs>-Xms256M -Xmx1024M -XX:PermSize=256M -XX:MaxPermSize=256M -XX:+HeapDumpOnOutOfMemoryError</memoryArgs>
 		<platform-version>[3.9,4.0)</platform-version>
 		
-		<!-- properties for deploying the composite update site on Sourceforge -->
+		<!-- properties for deploying the composite update site and zipped products on Sourceforge -->
 		
 		<!-- since this is used in the pluginManagement section, we need to make sure
 			the path always points to this pom's directory; project.basedir will always point
@@ -32,11 +32,14 @@
 		<!-- the subdirectory for the composite update site -->
 		<updates.dir>customeclipse</updates.dir>
 		<site.label>Custom Eclipse Example Site</site.label>
+
+		<remote.dir>lbettini,eclipseexamples@frs.sourceforge.net:/home/frs/project/eclipseexamples/customeclipse</remote.dir>
 	
-		<!-- local source directory for rsync (read from this directory) -->
-		<rsync.remote.dir>lbettini,eclipseexamples@frs.sourceforge.net:/home/frs/project/eclipseexamples/customeclipse/updates/</rsync.remote.dir>
-		<!-- remote rsync host -->
+		<!-- local source directory of p2 site for rsync -->
+		<rsync.remote.dir>${remote.dir}/updates/</rsync.remote.dir>
+		<!-- remote directory of p2 site for rsync -->
 		<rsync.local.dir>${user.home}/p2.repositories/${updates.dir}/</rsync.local.dir>
+
 		<!-- pass "-n" to perform a trial run with no changes made -->
 		<dryrun></dryrun>
 	</properties>
