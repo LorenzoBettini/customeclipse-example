@@ -11,7 +11,7 @@
 
 	<artifactId>customeclipse.example.ide.site</artifactId>
 	<packaging>eclipse-repository</packaging>
-	
+
 	<build>
 		<plugins>
 			<plugin>
@@ -44,4 +44,53 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>release-ide-composite</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+
+			<properties>
+				<!-- set it to true to have a self contained p2 repository https://wiki.eclipse.org/Tycho/eclipse-repository#Creating_a_self-contained_p2_repository -->
+				<includeAllDependencies>true</includeAllDependencies>
+			</properties>
+
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.eclipse.tycho</groupId>
+						<artifactId>tycho-p2-repository-plugin</artifactId>
+						<version>${tycho-version}</version>
+						<configuration>
+							<includeAllDependencies>${includeAllDependencies}</includeAllDependencies>
+						</configuration>
+					</plugin>
+
+					<plugin>
+						<!-- this is configured in pluginManagement section of the parent pom -->
+						<groupId>org.eclipse.tycho.extras</groupId>
+						<artifactId>tycho-eclipserun-plugin</artifactId>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>deploy-ide-composite</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+
+			<build>
+				<plugins>
+					<plugin>
+						<!-- this is configured in pluginManagement section of the parent pom -->
+						<artifactId>maven-antrun-plugin</artifactId>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
