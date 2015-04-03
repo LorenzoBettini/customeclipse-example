@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Rsync from Ant" basedir=".">
 
-	<!-- local source directory for rsync (read from this directory) -->
+	<!-- remote rsync host -->
 	<!-- <property name="rsync.remote.dir" value="lbettini,eclipseexamples@frs.sourceforge.net:/home/frs/project/eclipseexamples/p2composite.example/updates/"/> -->
 
-	<!-- remote rsync host -->
+	<!-- local directory for rsync -->
 	<!-- <property name="rsync.local.dir" value="${user.home}/p2.repositories/updates/"/> -->
 
 	<!-- pass "-n" to perform a trial run with no changes made -->
