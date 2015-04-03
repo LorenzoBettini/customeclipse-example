@@ -11,28 +11,28 @@
 
 	<artifactId>customeclipse.example.site</artifactId>
 	<packaging>eclipse-repository</packaging>
-	
+
 	<profiles>
 		<profile>
 			<id>release-composite</id>
 			<activation>
 				<activeByDefault>false</activeByDefault>
 			</activation>
-			
+
 			<properties>
 				<p2.repository.dest>${project.basedir}/../target/repository</p2.repository.dest>
 			</properties>
-		
+
 			<build>
 				<plugins>
-					
+
 					<plugin>
 						<groupId>org.eclipse.tycho.extras</groupId>
 						<artifactId>tycho-eclipserun-plugin</artifactId>
 						<version>${tycho-version}</version>
 						<configuration>
-						    <!-- IMPORTANT: DO NOT split the arg line -->
-							<appArgLine>-application org.eclipse.ant.core.antRunner -buildfile packaging-p2composite.ant p2.composite.add -Dsite.label="Composite Site Example" -Dproject.build.directory=${project.build.directory} -DunqualifiedVersion=${unqualifiedVersion} -DbuildQualifier=${buildQualifier}</appArgLine>
+							<!-- IMPORTANT: DO NOT split the arg line -->
+							<appArgLine>-application org.eclipse.ant.core.antRunner -buildfile packaging-p2composite.ant p2.composite.add -Dupdates.dir=${updates.dir} -Dsite.label="${site.label}" -Dproject.build.directory=${project.build.directory} -DunqualifiedVersion=${unqualifiedVersion} -DbuildQualifier=${buildQualifier}</appArgLine>
 							<repositories>
 								<repository>
 									<id>luna</id>
@@ -54,17 +54,17 @@
 									<type>eclipse-plugin</type>
 								</dependency>
 								<dependency>
-		                            <artifactId>org.eclipse.equinox.p2.core.feature</artifactId>
-		                            <type>eclipse-feature</type>
-		                        </dependency>
-		                        <dependency>
-		                            <artifactId>org.eclipse.equinox.p2.extras.feature</artifactId>
-		                            <type>eclipse-feature</type>
-		                        </dependency>
-		                        <dependency>
-		                            <artifactId>org.eclipse.equinox.ds</artifactId>
-		                            <type>eclipse-plugin</type>
-		                        </dependency>
+									<artifactId>org.eclipse.equinox.p2.core.feature</artifactId>
+									<type>eclipse-feature</type>
+								</dependency>
+								<dependency>
+									<artifactId>org.eclipse.equinox.p2.extras.feature</artifactId>
+									<type>eclipse-feature</type>
+								</dependency>
+								<dependency>
+									<artifactId>org.eclipse.equinox.ds</artifactId>
+									<type>eclipse-plugin</type>
+								</dependency>
 							</dependencies>
 						</configuration>
 						<executions>
@@ -77,9 +77,43 @@
 							</execution>
 						</executions>
 					</plugin>
+
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>${maven-antrun-plugin.version}</version>
+						<executions>
+							<execution>
+								<id>update-local-repository</id>
+								<phase>prepare-package</phase>
+								<configuration>
+									<target>
+										<ant antfile="${basedir}/rsync.ant" target="rsync-update">
+										</ant>
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+
+							<execution>
+								<id>deploy-repository</id>
+								<phase>verify</phase>
+								<configuration>
+									<target>
+										<ant antfile="${basedir}/rsync.ant" target="rsync-commit">
+										</ant>
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
 				</plugins>
 			</build>
-	
+
 		</profile>
 	</profiles>
 </project>
