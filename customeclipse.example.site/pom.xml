@@ -21,7 +21,6 @@
 
 			<build>
 				<plugins>
-
 					<plugin>
 						<groupId>org.eclipse.tycho.extras</groupId>
 						<artifactId>tycho-eclipserun-plugin</artifactId>
@@ -73,7 +72,18 @@
 							</execution>
 						</executions>
 					</plugin>
+				</plugins>
+			</build>
+		</profile>
 
+		<profile>
+			<id>deploy-composite</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+
+			<build>
+				<plugins>
 					<plugin>
 						<artifactId>maven-antrun-plugin</artifactId>
 						<version>${maven-antrun-plugin.version}</version>
@@ -109,7 +119,6 @@
 					</plugin>
 				</plugins>
 			</build>
-
 		</profile>
 	</profiles>
 </project>
