@@ -1,0 +1,2 @@
+instructions.configure=org.eclipse.equinox.p2.touchpoint.eclipse.addRepository(location:http${#58}//sourceforge.net/projects/eclipseexamples/files/customeclipse/updates/,type:0,name:CustomEclipse,enabled:true); \
+  org.eclipse.equinox.p2.touchpoint.eclipse.addRepository(location:http${#58}//sourceforge.net/projects/eclipseexamples/files/customeclipse/updates/,type:1,name:CustomEclipse,enabled:true);
