@@ -27,7 +27,7 @@
 		<!-- since this is used in the pluginManagement section, we need to make sure
 			the path always points to this pom's directory; project.basedir will always point
 			to the directory of the pom where the pluginManagement's plugins are used -->
-		<ant-files-path>${project.basedir}/../customeclipse.example.tycho</ant-files-path>
+		<ant-files-path>${project.basedir}/../customeclipse.example.tycho/ant</ant-files-path>
 
 		<!-- the subdirectory for the composite update site -->
 		<updates.dir>customeclipse</updates.dir>
