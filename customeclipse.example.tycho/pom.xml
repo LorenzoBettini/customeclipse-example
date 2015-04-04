@@ -21,6 +21,27 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<memoryArgs>-Xms256M -Xmx1024M -XX:PermSize=256M -XX:MaxPermSize=256M -XX:+HeapDumpOnOutOfMemoryError</memoryArgs>
 		<platform-version>[3.9,4.0)</platform-version>
+		
+		<!-- properties for deploying the composite update site and zipped products on Sourceforge -->
+		
+		<!-- since this is used in the pluginManagement section, we need to make sure
+			the path always points to this pom's directory; project.basedir will always point
+			to the directory of the pom where the pluginManagement's plugins are used -->
+		<ant-files-path>${project.basedir}/../customeclipse.example.tycho/ant</ant-files-path>
+
+		<!-- the subdirectory for the composite update site -->
+		<updates.dir>customeclipse</updates.dir>
+		<site.label>Custom Eclipse Example Site</site.label>
+
+		<remote.dir>lbettini,eclipseexamples@frs.sourceforge.net:/home/frs/project/eclipseexamples/customeclipse</remote.dir>
+	
+		<!-- local source directory of p2 site for rsync -->
+		<rsync.remote.dir>${remote.dir}/updates/</rsync.remote.dir>
+		<!-- remote directory of p2 site for rsync -->
+		<rsync.local.dir>${user.home}/p2.repositories/${updates.dir}/</rsync.local.dir>
+
+		<!-- pass "-n" to perform a trial run with no changes made -->
+		<dryrun></dryrun>
 	</properties>
 	
 	<profiles>
@@ -190,5 +211,95 @@
 				<version>${tycho-version}</version>
 			</plugin>
 		</plugins>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.eclipse.tycho.extras</groupId>
+					<artifactId>tycho-eclipserun-plugin</artifactId>
+					<version>${tycho-version}</version>
+					<configuration>
+						<!-- IMPORTANT: DO NOT split the arg line -->
+						<appArgLine>-application org.eclipse.ant.core.antRunner -buildfile ${ant-files-path}/packaging-p2composite.ant p2.composite.add -Dupdates.dir=${updates.dir} -Dsite.label="${site.label}" -Dproject.build.directory=${project.build.directory} -DunqualifiedVersion=${unqualifiedVersion} -DbuildQualifier=${buildQualifier}</appArgLine>
+						<repositories>
+							<repository>
+								<id>luna</id>
+								<layout>p2</layout>
+								<url>http://download.eclipse.org/releases/luna</url>
+							</repository>
+						</repositories>
+						<dependencies>
+							<dependency>
+								<artifactId>org.eclipse.ant.core</artifactId>
+								<type>eclipse-plugin</type>
+							</dependency>
+							<dependency>
+								<artifactId>org.apache.ant</artifactId>
+								<type>eclipse-plugin</type>
+							</dependency>
+							<dependency>
+								<artifactId>org.eclipse.equinox.p2.repository.tools</artifactId>
+								<type>eclipse-plugin</type>
+							</dependency>
+							<dependency>
+								<artifactId>org.eclipse.equinox.p2.core.feature</artifactId>
+								<type>eclipse-feature</type>
+							</dependency>
+							<dependency>
+								<artifactId>org.eclipse.equinox.p2.extras.feature</artifactId>
+								<type>eclipse-feature</type>
+							</dependency>
+							<dependency>
+								<artifactId>org.eclipse.equinox.ds</artifactId>
+								<type>eclipse-plugin</type>
+							</dependency>
+						</dependencies>
+					</configuration>
+					<executions>
+						<execution>
+							<id>add-p2-composite-repository</id>
+							<phase>package</phase>
+							<goals>
+								<goal>eclipse-run</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				
+				<plugin>
+					<artifactId>maven-antrun-plugin</artifactId>
+					<version>${maven-antrun-plugin.version}</version>
+					<executions>
+						<execution>
+							<id>update-local-repository</id>
+							<phase>prepare-package</phase>
+							<configuration>
+								<target>
+									<ant antfile="${ant-files-path}/rsync.ant" target="rsync-update">
+									</ant>
+								</target>
+							</configuration>
+							<goals>
+								<goal>run</goal>
+							</goals>
+						</execution>
+
+						<execution>
+							<id>deploy-repository</id>
+							<phase>verify</phase>
+							<configuration>
+								<target>
+									<ant antfile="${ant-files-path}/rsync.ant" target="rsync-commit">
+									</ant>
+								</target>
+							</configuration>
+							<goals>
+								<goal>run</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 </project>
