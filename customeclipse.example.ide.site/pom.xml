@@ -54,7 +54,7 @@
 
 			<properties>
 				<!-- set it to true to have a self contained p2 repository https://wiki.eclipse.org/Tycho/eclipse-repository#Creating_a_self-contained_p2_repository -->
-				<includeAllDependencies>true</includeAllDependencies>
+				<includeAllDependencies>false</includeAllDependencies>
 			</properties>
 
 			<build>
